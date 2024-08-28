@@ -6,7 +6,7 @@
   "author": "Юлия Турская",
   "repository": {
     "type": "git",
-    "url": "https://mekulakovka.github.io/js1_keksbooking/"
+    "url": "https://github.com/mekulakovka/js1_keksbooking"
   },
   "devDependencies": {
     "browser-sync": "^2.23.7",
