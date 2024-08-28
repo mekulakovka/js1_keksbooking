@@ -2,14 +2,11 @@
   "name": "keksobooking",
   "version": "25.0.0",
   "private": true,
-  "description": "Личный проект «{{projectTitle}}» от HTML Academy",
-  "author": "Julia Turska",
+  "description": "Личный проект «Кексобукинг - жилье по соседству» от HTML Academy",
+  "author": "Юлия Турская",
   "repository": {
     "type": "git",
-    "url": "{{sshUrl}}"
-  },
-  "bugs": {
-    "url": "{{bugsUrl}}"
+    "url": "https://mekulakovka.github.io/js1_keksbooking/"
   },
   "devDependencies": {
     "browser-sync": "^2.23.7",
