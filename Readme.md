@@ -2,7 +2,7 @@
 
 * Студент: Юлия Турская.
 * Наставник: `самостоятельное плаванье`.
-* Ссылка на проект (https://github.com/mekulakovka/js1_keksbooking)
+* Ссылка на страницу проекта (https://mekulakovka.github.io/js1_keksbooking/)
 
 ---
 
