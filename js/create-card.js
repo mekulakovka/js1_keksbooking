@@ -90,13 +90,11 @@ const createCard = ({author, offer}) => {
 //Фотографии			
 	if (offer.photos) {
 		const offerPhotos = offer.photos;
-		for (let i = 0; offerPhotos.length > i; i++) {					
-			if (offerPhotos[i]) {
-				let photoItem = cardElement.querySelector('.popup__photo').cloneNode(true);
-				photoItem.src = offerPhotos[i];
-				objectPhotos.append(photoItem);  		  
-			}		
-		}
+		offerPhotos.forEach((item) => {
+			let photoItem = cardElement.querySelector('.popup__photo').cloneNode(true);
+			photoItem.src = item;
+			objectPhotos.append(photoItem);  		  
+		});
 		cardElement.querySelector('.popup__photo:first-child').remove();
 	} else 
 		objectPhotos.remove();
