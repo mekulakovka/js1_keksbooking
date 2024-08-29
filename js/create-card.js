@@ -14,47 +14,57 @@ const createCardField = (selector, text) => {
 const createCard = ({author, offer}) => {
 	const cardElement = cardTemplate.cloneNode(true);
 
+	const cardTitle = cardElement.querySelector('.popup__title');
+	const objectAddress = cardElement.querySelector('.popup__text--address');
+	const objectPrice = cardElement.querySelector('.popup__text--price');
+	const objectType = cardElement.querySelector('.popup__type');
+	const objectCapacity = cardElement.querySelector('.popup__text--capacity');
+	const objectCheckIn = cardElement.querySelector('.popup__text--time');
+	const objectDescription = cardElement.querySelector('.popup__description');
+	const authorAvatar = cardElement.querySelector('.popup__avatar');
+	const objectPhotos = cardElement.querySelector('.popup__photos');
+
 //Заголовок 
-	createCardField(cardElement.querySelector('.popup__title'), offer.title);
+	createCardField(cardTitle, offer.title);
 
 //Адрес
-	createCardField(cardElement.querySelector('.popup__text--address'), offer.address);
+	createCardField(objectAddress, offer.address);
 
 //Цена
-	createCardField(cardElement.querySelector('.popup__text--address'), offer.price);
+	createCardField(objectPrice, offer.price);
 
 //Тип жилья
 	switch (offer.type) {
 		case 'flat':
-			cardElement.querySelector('.popup__type').textContent = 'Квартира';
+			objectType.textContent = 'Квартира';
 			break;
 		case 'bungalow':
-			cardElement.querySelector('.popup__type').textContent = 'Бунгало';
+			objectType.textContent = 'Бунгало';
 			break;
 		case 'house':
-			cardElement.querySelector('.popup__type').textContent = 'Дом';
+			objectType.textContent = 'Дом';
 			break;
 		case 'palace':
-			cardElement.querySelector('.popup__type').textContent = 'Дворец';
+			objectType.textContent = 'Дворец';
 			break;
 		case 'hotel':
-			cardElement.querySelector('.popup__type').textContent = 'Отель';
+			objectType.textContent = 'Отель';
 			break;
 		default:
-			cardElement.querySelector('.popup__type').remove();
+			objectType.remove();
 	}
 
 //Кол-во гостей
 	if (offer.rooms) {	
-		cardElement.querySelector('.popup__text--capacity').textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
+		objectCapacity.textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
 	} else 
-		cardElement.querySelector('.popup__text--capacity').remove();
+		objectCapacity.remove();
 
 //Заезд
 	if (offer.checkin) {	
-		cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
+		objectCheckIn.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
 	} else 
-		cardElement.querySelector('.popup__text--time').remove();
+		objectCheckIn.remove();
 	
 //Удобства
 	if (offer.features) {
@@ -75,7 +85,7 @@ const createCard = ({author, offer}) => {
 	}
 
 //Описание
-	createCardField(cardElement.querySelector('.popup__description'), offer.description);	
+	createCardField(objectDescription, offer.description);	
 
 //Фотографии			
 	if (offer.photos) {
@@ -84,18 +94,18 @@ const createCard = ({author, offer}) => {
 			if (offerPhotos[i]) {
 				let photoItem = cardElement.querySelector('.popup__photo').cloneNode(true);
 				photoItem.src = offerPhotos[i];
-				cardElement.querySelector('.popup__photos').append(photoItem);  		  
+				objectPhotos.append(photoItem);  		  
 			}		
 		}
 		cardElement.querySelector('.popup__photo:first-child').remove();
 	} else 
-		cardElement.querySelector('.popup__photos').remove();
+		objectPhotos.remove();
 
 //Аватар
 	if (author.avatar) {
-		cardElement.querySelector('.popup__avatar').src = author.avatar;
+		authorAvatar.src = author.avatar;
 	} else
-		cardElement.querySelector('.popup__avatar').remove();
+		authorAvatar.remove();
 
 
 	return(cardElement);
