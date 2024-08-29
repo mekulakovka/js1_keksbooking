@@ -20,6 +20,9 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const imgChooser = document.querySelector('.ad-form__upload input[type=file]');
 const imgPreview = document.querySelector('.ad-form__photo');
 
+const NAME_LENGTH_MIN = 30;
+const NAME_LENGTH_MAX = 100;
+
 const AVATAR_PREVIEW_DEFAULT = 'img/muffin-grey.svg';
 
 const MinPrices = {
@@ -29,6 +32,8 @@ const MinPrices = {
   'house': 5000,
   'palace': 10000,
 };
+const MAX_PRICE = 100000;
+
 const CapacityOption = {
   '1': ['1'],
   '2': ['1', '2'],
@@ -83,7 +88,7 @@ const pristine = new Pristine(form, {
 
 //валидация заголовка объявления 
 const validateTitle = (value) => {
-  return value.length >= 30 && value.length <= 100;
+  return value.length >= NAME_LENGTH_MIN && value.length <= NAME_LENGTH_MAX;
 }
 
 pristine.addValidator(
@@ -104,7 +109,7 @@ propertyType.addEventListener('change', () => {
 });
 
 const validatePrice = (value) => {
-  return value >= MinPrices[propertyType.value] && value <= 100000;
+  return value >= MinPrices[propertyType.value] && value <= MAX_PRICE;
 }
 
 const minPriceErrorMessage = () => {

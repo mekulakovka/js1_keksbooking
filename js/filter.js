@@ -25,6 +25,8 @@ const FilterPrice = {
   LOW: 'low',
   HIGH: 'high'
 };
+const MID_HIGH_PRICE = 50000;
+const MID_LOW_PRICE = 10000;
 
 const FilterRooms = {
   ANY: 'any',
@@ -64,9 +66,9 @@ const filterObjectsPrice = (elements) => {
     let priceRange = '';
     i = parseInt(i);
     
-    if(i > 50000) {
+    if(i > MID_HIGH_PRICE) {
       priceRange = 'high';
-    } else if (i < 10000){
+    } else if (i < MID_LOW_PRICE){
       priceRange = 'low'
     } else {
       priceRange = 'middle'
