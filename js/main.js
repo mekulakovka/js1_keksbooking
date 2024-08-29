@@ -1,4 +1,3 @@
-'use strict';
 import './page-status.js';
 import { setObjectsOnMap, resetMap } from './map.js';
 import { setOnFormSubmit, resetForm } from './form.js';
@@ -14,9 +13,9 @@ const onGetDataSuccess = (data) => {
 
 const onSendDataSuccess = () => { 
   showSuccessMessage();
+  resetFilter();
   resetForm();
   resetMap();
-  resetFilter();
 };
 
 const onSendDataError = () => {
