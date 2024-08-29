@@ -1,6 +1,7 @@
 const form = document.querySelector('.ad-form');
 const fieldsetforms = form.querySelectorAll('fieldset');
 const filterForm = document.querySelector('.map__filters');
+const filterFieldset = filterForm.querySelector('fieldset');
 const selectFilterForms = filterForm.querySelectorAll('select');
 
 const setPageNotActive = () => {
@@ -13,7 +14,7 @@ const setPageNotActive = () => {
 	selectFilterForms.forEach((item) => {
 		item.disabled = true;
 	});
-	filterForm.querySelector('fieldset').disabled = true;
+	filterFieldset.disabled = true;
 }
 
 const setPageActive = () => {
