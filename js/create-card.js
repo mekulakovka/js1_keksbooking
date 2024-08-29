@@ -2,27 +2,26 @@ const cardTemplate = document.querySelector('#card')
 	.content
 	.querySelector('.popup');
 
+
+const createCardField = (selector, text) => {
+	if (text) {
+		selector.textContent = text;
+	} else {
+		selector.remove();
+	}
+}
+
 const createCard = ({author, offer}) => {
 	const cardElement = cardTemplate.cloneNode(true);
 
 //Заголовок 
-	if (offer.title) {
-		cardElement.querySelector('.popup__title').textContent = offer.title;		
-	} else {
-		cardElement.querySelector('.popup__title').remove();
-	}
+	createCardField(cardElement.querySelector('.popup__title'), offer.title);
 
 //Адрес
-	if (offer.address) {
-		cardElement.querySelector('.popup__text--address').textContent = offer.address;
-	} else 
-		cardElement.querySelector('.popup__text--address').remove();
+	createCardField(cardElement.querySelector('.popup__text--address'), offer.address);
 
 //Цена
-	if (offer.price) {		
-		cardElement.querySelector('.popup__text--price').textContent = offer.price + ' ₽/ночь';
-	} else 
-		cardElement.querySelector('.popup__text--price').remove();
+	createCardField(cardElement.querySelector('.popup__text--address'), offer.price);
 
 //Тип жилья
 	switch (offer.type) {
@@ -76,10 +75,7 @@ const createCard = ({author, offer}) => {
 	}
 
 //Описание
-	if (offer.description) {	
-		cardElement.querySelector('.popup__description').textContent = offer.description;
-	} else 
-		cardElement.querySelector('.popup__description').remove();
+	createCardField(cardElement.querySelector('.popup__description'), offer.description);	
 
 //Фотографии			
 	if (offer.photos) {
