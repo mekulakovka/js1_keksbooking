@@ -3,10 +3,15 @@ import { createCard } from './create-card.js';
 
 const propertyAddress = document.querySelector('#address');
 const DEFAULT_ADDRESS = {
-    lat: 35.681729,
-    lng: 139.753927,
+    lat: 35.68172,
+    lng: 139.75392,
 };
-propertyAddress.value = `lat: ${DEFAULT_ADDRESS.lat}, lng: ${DEFAULT_ADDRESS.lng}`;
+
+const setAddressValueDefault = () => {
+	propertyAddress.value = `${DEFAULT_ADDRESS.lat}, ${DEFAULT_ADDRESS.lng}`;
+}
+setAddressValueDefault();
+propertyAddress.placeholder = `${DEFAULT_ADDRESS.lat}, ${DEFAULT_ADDRESS.lng}`;	
 
 let newMapAddress = DEFAULT_ADDRESS;
 
@@ -42,7 +47,7 @@ mainMarker.addTo(map);
 //получаем новый адрес при перемещении метки
 mainMarker.on('moveend', (evt) => {
 	newMapAddress = evt.target.getLatLng();
-	propertyAddress.value = `lat: ${newMapAddress.lat.toFixed(5)}, lng: ${newMapAddress.lng.toFixed(5)}`
+	propertyAddress.value = `${newMapAddress.lat.toFixed(5)}, ${newMapAddress.lng.toFixed(5)}`
 });	
 
 
@@ -108,10 +113,9 @@ const setObjectsOnMap = (loadedObjects) => {
 	}
 }
 
-
 //сброс карты 
 const resetMap = () => {
-	propertyAddress.value = `lat: ${DEFAULT_ADDRESS.lat}, lng: ${DEFAULT_ADDRESS.lng}`;
+	setTimeout(setAddressValueDefault, 10);	//задержка, чтобы установка значения в инпут случалась после form.reset()	
 	mainMarker.setLatLng(DEFAULT_ADDRESS);
 	map.closePopup();
 }

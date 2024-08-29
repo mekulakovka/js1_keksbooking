@@ -20,6 +20,8 @@ const avatarPreview = document.querySelector('.ad-form-header__preview img');
 const imgChooser = document.querySelector('.ad-form__upload input[type=file]');
 const imgPreview = document.querySelector('.ad-form__photo');
 
+const AVATAR_PREVIEW_DEFAULT = 'img/muffin-grey.svg';
+
 const MinPrices = {
   'bungalow': 0,
   'flat': 1000,
@@ -167,13 +169,15 @@ const resetForm = () => {
   resetSlider();
   propertyPrice.min = 0;
   propertyPrice.placeholder = 0;  
+  avatarPreview.src = AVATAR_PREVIEW_DEFAULT;
+  imgPreview.innerHTML = '';
 }
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault;  
-  resetForm();
-  resetMap();
   resetFilter();
+  resetForm();
+  resetMap();  
 });
 
 export {setOnFormSubmit, resetForm}
