@@ -31,13 +31,13 @@ const body = document.querySelector('body');
 
 const showSuccessMessage = () => {
   body.append(successMessage);
-  body.addEventListener('keydown', onEscDown);
+  body.addEventListener('keydown', onBodyKeydown);
   body.addEventListener('click', onBodyClick);
 };
 
 const showErrorMessage = () => {
   body.append(errorMessage);
-  body.addEventListener('keydown', onEscDown);
+  body.addEventListener('keydown', onBodyKeydown);
   body.addEventListener('click', onBodyClick);
   errorMessage
     .querySelector('.error__button')
@@ -48,7 +48,7 @@ const hideMessage = () => {
   const messageElement =
     document.querySelector('.success') || document.querySelector('.error');
   messageElement.remove();
-  body.removeEventListener('keydown', onEscDown);
+  body.removeEventListener('keydown', onBodyKeydown);
   body.removeEventListener('click', onBodyClick);
 }
 
@@ -62,7 +62,7 @@ const onBodyClick = (evt) => {
   hideMessage();
 }
 
-const onEscDown = (evt) => {
+const onBodyKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     evt.stopPropagation();
