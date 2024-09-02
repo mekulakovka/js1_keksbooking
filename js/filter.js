@@ -30,16 +30,16 @@ const MID_LOW_PRICE = 10000;
 
 const FilterRooms = {
   ANY: 'any',
-  ONE: 1,
-  TWO: 2,
-  THREE: 3
+  ONE: '1',
+  TWO: '2',
+  THREE: '3'
 };
 
 const FilterGuests = {
   ANY: 'any',
-  ONE: 2,
-  TWO: 1,
-  THREE: 0
+  ONE: '2',
+  TWO: '1',
+  THREE: '0'
 };
 
 let featuresArray = [];
@@ -54,9 +54,9 @@ let currentGuestsFilter = '';
 let objects = [];
 
 const filterObjectsType = (elements) => {
-  if (currentTypeFilter !== 'any') {
+  if (currentTypeFilter !== 'any') {    
     return elements.filter(({offer}) => offer.type === currentTypeFilter );  
-  }
+  }  
   return elements;
 };
 
@@ -84,16 +84,15 @@ const filterObjectsPrice = (elements) => {
 
 const filterObjectsRooms = (elements) => {
 
-  if (currentRoomsFilter !== 'any') {                
-    return elements.filter(({offer}) => offer.rooms == currentRoomsFilter );  
+  if (currentRoomsFilter !== 'any') {
+    return elements.filter(({offer}) => offer.rooms === parseInt(currentRoomsFilter) );
   }
   return elements;
 };
 
-const filterObjectsGuests = (elements) => {
-  
+const filterObjectsGuests = (elements) => {  
   if (currentGuestsFilter !== 'any') {
-    return elements.filter(({offer}) => offer.guests == currentGuestsFilter );  
+    return elements.filter(({offer}) => offer.guests === parseInt(currentGuestsFilter) );  
   }
   return elements;
 };
@@ -165,9 +164,6 @@ const setOnSelect = (select, cb) => {
 
   select.addEventListener('change', (evt) => {    
     const selectedOption = evt.target;
-    if ((selectedOption.value === currentTypeFilter) || (selectedOption.value === currentPriceFilter) || (selectedOption.value === currentRoomsFilter) || (selectedOption.value === currentGuestsFilter)) {
-      return;
-    }
 
     select.querySelector('option').selected = false;
     selectedOption.selected = true;
