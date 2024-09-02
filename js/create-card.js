@@ -3,11 +3,66 @@ const cardTemplate = document.querySelector('#card')
 	.querySelector('.popup');
 
 
-const createCardField = (selector, text) => {
-	if (text) {
-		selector.textContent = text;
-	} else {
+const checkIfNotEmpty = (selector, item) => {
+	if (!item) {		
 		selector.remove();
+		return false;
+	}
+	return true;
+}
+
+const createTextField = (selector, text) => {
+	if (checkIfNotEmpty(selector, text)) {
+		selector.textContent = text;		
+	}
+}
+
+const setObjectType = (selector, type) => {
+	switch (type) {
+		case 'flat':
+			selector.textContent = 'Квартира';
+			break;
+		case 'bungalow':
+			selector.textContent = 'Бунгало';
+			break;
+		case 'house':
+			selector.textContent = 'Дом';
+			break;
+		case 'palace':
+			selector.textContent = 'Дворец';
+			break;
+		case 'hotel':
+			selector.textContent = 'Отель';
+			break;
+		default:
+			selector.remove();
+	}
+}
+
+const createFeatures = (selector, features) => {	
+	if (checkIfNotEmpty(selector, features)) {
+		const featuresArray = selector.querySelectorAll('.popup__feature');	
+
+		featuresArray.forEach((featureItem) => {
+			const isNecessary = features.some(
+				(offerFeature) => featureItem.classList.contains('popup__feature--' + offerFeature),
+			);
+
+			if (!isNecessary) {
+				featureItem.remove();
+			}
+		});
+	}
+}
+
+const createPhotos = (selector, photo, photos) => {
+	if (checkIfNotEmpty(selector, photos)) {		
+		photos.forEach((item) => {
+			let photoItem = photo.cloneNode(true);
+			photoItem.src = item;
+			selector.append(photoItem);  		  
+		});
+		selector.querySelector('.popup__photo:first-child').remove();
 	}
 }
 
@@ -21,90 +76,47 @@ const createCard = ({author, offer}) => {
 	const objectCapacity = cardElement.querySelector('.popup__text--capacity');
 	const objectCheckIn = cardElement.querySelector('.popup__text--time');
 	const objectDescription = cardElement.querySelector('.popup__description');
+	const featuresList = cardElement.querySelector('.popup__features');
 	const authorAvatar = cardElement.querySelector('.popup__avatar');
 	const objectPhotos = cardElement.querySelector('.popup__photos');
+	const objectPhoto = cardElement.querySelector('.popup__photo');
 
 //Заголовок 
-	createCardField(cardTitle, offer.title);
+	createTextField(cardTitle, offer.title);
 
 //Адрес
-	createCardField(objectAddress, offer.address);
+	createTextField(objectAddress, offer.address);
 
 //Цена
-	createCardField(objectPrice, offer.price);
+	createTextField(objectPrice, offer.price);
+	objectPrice.insertAdjacentHTML('beforeend', '<span> ₽/ночь</span>');
 
 //Тип жилья
-	switch (offer.type) {
-		case 'flat':
-			objectType.textContent = 'Квартира';
-			break;
-		case 'bungalow':
-			objectType.textContent = 'Бунгало';
-			break;
-		case 'house':
-			objectType.textContent = 'Дом';
-			break;
-		case 'palace':
-			objectType.textContent = 'Дворец';
-			break;
-		case 'hotel':
-			objectType.textContent = 'Отель';
-			break;
-		default:
-			objectType.remove();
-	}
+	setObjectType(objectType, offer.type);
 
 //Кол-во гостей
-	if (offer.rooms) {	
+	if (checkIfNotEmpty(objectCapacity, offer.rooms)) {	
 		objectCapacity.textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
-	} else 
-		objectCapacity.remove();
-
-//Заезд
-	if (offer.checkin) {	
-		objectCheckIn.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
-	} else 
-		objectCheckIn.remove();
-	
-//Удобства
-	if (offer.features) {
-		const offerFeatures = offer.features;
-		const featuresList = cardElement.querySelectorAll('.popup__feature');
-
-		featuresList.forEach((featuresListItem) => {
-			const isNecessary = offerFeatures.some(
-				(offerFeature) => featuresListItem.classList.contains('popup__feature--' + offerFeature),
-			);
-
-			if (!isNecessary) {
-				featuresListItem.remove();
-			}
-		});
-	}	else {
-		cardElement.querySelector('.popup__features').remove();
 	}
 
+//Заезд
+	if (checkIfNotEmpty(objectCheckIn, offer.checkin)) {	
+		objectCheckIn.textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
+	}
+	
+//Удобства
+	createFeatures(featuresList, offer.features);
+
 //Описание
-	createCardField(objectDescription, offer.description);	
+	createTextField(objectDescription, offer.description);	
 
 //Фотографии			
-	if (offer.photos) {
-		const offerPhotos = offer.photos;
-		offerPhotos.forEach((item) => {
-			let photoItem = cardElement.querySelector('.popup__photo').cloneNode(true);
-			photoItem.src = item;
-			objectPhotos.append(photoItem);  		  
-		});
-		cardElement.querySelector('.popup__photo:first-child').remove();
-	} else 
-		objectPhotos.remove();
+	createPhotos(objectPhotos, objectPhoto, offer.photos);
 
 //Аватар
-	if (author.avatar) {
+	if (checkIfNotEmpty(authorAvatar, author.avatar)) {
 		authorAvatar.src = author.avatar;
-	} else
-		authorAvatar.remove();
-
+	}
 
 	return(cardElement);
 }
