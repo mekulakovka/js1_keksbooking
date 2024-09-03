@@ -1,4 +1,4 @@
-import { setPageActive } from './page-status.js';
+import { setPageNotActive, setPageActive } from './page-status.js';
 import { createCard } from './create-card.js';
 
 const propertyAddress = document.querySelector('#address');
@@ -14,6 +14,8 @@ setAddressValueDefault();
 propertyAddress.placeholder = `${DEFAULT_ADDRESS.lat}, ${DEFAULT_ADDRESS.lng}`;	
 
 let newMapAddress = DEFAULT_ADDRESS;
+
+setPageNotActive();
 
 //создание карты
 const map = L.map('map-canvas')
