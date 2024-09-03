@@ -42,7 +42,7 @@ const FilterGuests = {
   THREE: '0'
 };
 
-let featuresArray = [];
+let selectedFeatures = [];
 
 const ITEMS_COUNT = 10;
 
@@ -53,78 +53,76 @@ let currentGuestsFilter = '';
 
 let objects = [];
 
-const filterObjectsType = (elements) => {
-  if (currentTypeFilter !== 'any') {    
-    return elements.filter(({offer}) => offer.type === currentTypeFilter );  
-  }  
-  return elements;
+const parsePrice = (i) => {
+  let priceRange = '';
+  i = parseInt(i);
+  
+  if(i > MID_HIGH_PRICE) {
+    priceRange = 'high';
+  } else if (i < MID_LOW_PRICE){
+    priceRange = 'low'
+  } else {
+    priceRange = 'middle'
+  }
+  return priceRange
+}
+
+const filterByType = ({offer}) => {
+  if (offer.type === currentTypeFilter || currentTypeFilter === 'any') {
+    return true;
+  } else  {
+    return false;
+  }
 };
 
-const filterObjectsPrice = (elements) => {
+const filterByPrice = ({offer}) => {
+  if (parsePrice(offer.price) === currentPriceFilter || currentPriceFilter === 'any') {
+    return true;
+  } else {
+    return false;
+  }
+};
 
-  const parsePrice = (i) => {
-    let priceRange = '';
-    i = parseInt(i);
-    
-    if(i > MID_HIGH_PRICE) {
-      priceRange = 'high';
-    } else if (i < MID_LOW_PRICE){
-      priceRange = 'low'
-    } else {
-      priceRange = 'middle'
+const filterByRooms = ({offer}) => {
+  if (offer.rooms === parseInt(currentRoomsFilter) || currentRoomsFilter === 'any') {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const filterByGuests = ({offer}) => {  
+  if (offer.guests === parseInt(currentGuestsFilter) || currentGuestsFilter === 'any') {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const checkFeaturesContains = (features) => {
+  for (let i = 0; i < selectedFeatures.length; i++) {
+    if (features.indexOf(selectedFeatures[i]) == -1 ) {
+      return false;
     }
-    return priceRange
   }
+  return true;  
+}
 
-  if (currentPriceFilter !== 'any') {
-    return elements.filter(({offer}) => parsePrice(offer.price) === currentPriceFilter );  
+const filterByFeatures = ({offer}) => {
+  if (selectedFeatures.length < 1) { 
+    return true;
   }
-  return elements;
-};
-
-const filterObjectsRooms = (elements) => {
-
-  if (currentRoomsFilter !== 'any') {
-    return elements.filter(({offer}) => offer.rooms === parseInt(currentRoomsFilter) );
+  if (selectedFeatures.length > 0 && offer.features) {
+      return checkFeaturesContains(offer.features);
+  } else {
+    return false;
   }
-  return elements;
-};
-
-const filterObjectsGuests = (elements) => {  
-  if (currentGuestsFilter !== 'any') {
-    return elements.filter(({offer}) => offer.guests === parseInt(currentGuestsFilter) );  
-  }
-  return elements;
-};
-
-const filterObjectsFeatures = (elements, value) => {
-
-  return elements.filter(({offer}) => {
-    let features = offer.features;
-    if (features) {
-      if ( features.indexOf(value) !== -1 ) {
-        return true;
-      }
-    }
-  });
 };
 
 const filterObjects = () => {
-  let sortedObjects = [...objects];
+  let offers = [...objects];  
 
-  sortedObjects = filterObjectsType(sortedObjects);   
-  sortedObjects = filterObjectsPrice(sortedObjects);
-  sortedObjects = filterObjectsRooms(sortedObjects);
-  sortedObjects = filterObjectsGuests(sortedObjects);  
-  
-
-  if (featuresArray) {
-    featuresArray.forEach((item) => {
-      sortedObjects = filterObjectsFeatures(sortedObjects, item);  
-    });    
-  }
-
-  return sortedObjects.slice(0, ITEMS_COUNT);
+  return offers.filter((item) => filterByType(item) && filterByPrice(item) && filterByRooms(item) && filterByGuests(item) && filterByFeatures(item)).slice(0, ITEMS_COUNT);
 }
 
 const setFilterFormActive = () => {
@@ -149,7 +147,7 @@ const turnFilterOn = (loadedObjects) => {
   currentRoomsFilter = FilterRooms.ANY;
   currentGuestsFilter = FilterGuests.ANY; 
 
-  featuresArray = []; 
+  selectedFeatures = []; 
 
   setSelectDefault(selectTypes);
   setSelectDefault(selectPrices);
@@ -198,14 +196,14 @@ const setOnFeatures = (cb) => {
       const currentValue = selectedOption.value;
 
       if (selectedOption.checked) {
-        featuresArray.push(currentValue);        
+        selectedFeatures.push(currentValue);        
       } else {
-        const i = featuresArray.indexOf(currentValue);
-        featuresArray.splice(i,1);
+        const i = selectedFeatures.indexOf(currentValue);
+        selectedFeatures.splice(i,1);
         }
       debouncedRenderObjects(filterObjects());      
     });
-  });
+  });  
 }
 
 const setOnFilters = (cb) => {
@@ -216,7 +214,6 @@ const setOnFilters = (cb) => {
   setOnSelect(selectGuests, cb); 
 
   setOnFeatures(cb);
-  
 };
 
 const resetFilter = () => {
