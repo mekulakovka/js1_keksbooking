@@ -20,13 +20,14 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-//сообщение об успешной отправке формы
 const successMessage = document
   .querySelector('#success')
   .content.querySelector('.success');
+
 const errorMessage = document
   .querySelector('#error')
   .content.querySelector('.error');
+
 const body = document.querySelector('body');
 
 const showSuccessMessage = () => {
@@ -41,7 +42,7 @@ const showErrorMessage = () => {
   body.addEventListener('click', onBodyClick);
   errorMessage
     .querySelector('.error__button')
-    .addEventListener('click', hideMessage);
+    .addEventListener('click', onMessageClick);
 };
 
 const hideMessage = () => {
@@ -51,6 +52,8 @@ const hideMessage = () => {
   body.removeEventListener('keydown', onBodyKeydown);
   body.removeEventListener('click', onBodyClick);
 }
+
+const onMessageClick = () => { hideMessage() }
 
 const onBodyClick = (evt) => {
   if (
