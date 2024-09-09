@@ -101,7 +101,7 @@ const filterByGuests = ({offer}) => {
 
 const checkFeaturesContains = (features) => {
   for (let i = 0; i < selectedFeatures.length; i++) {
-    if (features.indexOf(selectedFeatures[i]) == -1 ) {
+    if (features.indexOf(selectedFeatures[i]) === -1 ) {
       return false;
     }
   }

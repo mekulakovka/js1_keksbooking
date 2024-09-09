@@ -110,7 +110,7 @@ const setObjectsOnMap = (loadedObjects) => {
 
 	removeMarkers(markers);
 	
-	if (!objects.length == 0) {
+	if (objects.length !== 0) {
 		createMarkers(objects);
 	}
 }
